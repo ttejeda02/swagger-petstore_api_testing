@@ -28,3 +28,9 @@ jobs:
         env:
           PET_ID: ${{ vars.PET_ID }}
         run: pytest swagger_petstore/pet.py
+          
+      - name: execute petstore store apis # run store.py
+        env:
+          ORDER_ID: ${{ vars.ORDER_ID }}
+          PET_ID: ${{ vars.PET_ID }}
+        run: pytest swagger_petstore/store.py
