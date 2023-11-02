@@ -1,4 +1,4 @@
-name: run tests
+name: run daily test
 
 on:
   schedule:
@@ -34,3 +34,10 @@ jobs:
           ORDER_ID: ${{ vars.ORDER_ID }}
           PET_ID: ${{ vars.PET_ID }}
         run: pytest swagger_petstore/store.py
+          
+      - name: execute petstore user apis # run user.py
+        env:
+          SP_USER_ID: ${{ vars.SP_USER_ID }}
+          SP_USERNAME: ${{ vars.SP_USERNAME }}
+          SP_PASSWORD: ${{ vars.SP_PASSWORD }}
+        run: pytest swagger_petstore/user.py
