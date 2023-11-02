@@ -100,6 +100,3 @@ def test_delete_pet_confirmation():
     response = requests.get(URN + f"/pet/{PET_ID}", headers=HEADERS, timeout=15)
     # print(response.json())  # Print the response in json format
     assert response.status_code == 404, "Error: " + str(response.status_code)
-
-
-print(PET_ID)
