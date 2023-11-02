@@ -28,4 +28,4 @@ jobs:
         env:
           PET_ID: ${{ env.PET_ID }}
         run: python3.11 swagger_petstore/pet.py
-        run: pytest swagger_petstore/pet.py
+        # run: pytest swagger_petstore/pet.py
