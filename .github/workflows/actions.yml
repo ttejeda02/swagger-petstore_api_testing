@@ -26,6 +26,6 @@ jobs:
           
       - name: execute petstore pet apis # run pet.py
         env:
-          PET_ID: ${{ envs.PET_ID }}
+          PET_ID: ${{ env.PET_ID }}
         run: python3.11 swagger_petstore/pet.py
         run: pytest swagger_petstore/pet.py
