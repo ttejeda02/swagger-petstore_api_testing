@@ -89,7 +89,7 @@ def test_delete_user():
 
 
 def test_delete_user_confirmation():
-    """Testing api to get the user info by username"""
+    """Testing api to get the user by username if 404 is OK"""
 
     response = requests.get(URN + f"/user/{SP_USERNAME}02", headers=HEADERS, timeout=15)
-    assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.status_code == 404, "Error: " + str(response.status_code)
