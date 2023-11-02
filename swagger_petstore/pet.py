@@ -1,8 +1,8 @@
 """This module was created to test petstore-swagger pet API"""
 
 import json
-import requests
 import os
+import requests
 
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
 URN = "https://petstore.swagger.io/v2"
@@ -100,3 +100,6 @@ def test_delete_pet_confirmation():
     response = requests.get(URN + f"/pet/{PET_ID}", headers=HEADERS, timeout=15)
     # print(response.json())  # Print the response in json format
     assert response.status_code == 404, "Error: " + str(response.status_code)
+
+
+print(PET_ID)
