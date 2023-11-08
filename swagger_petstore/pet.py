@@ -55,7 +55,7 @@ def test_post_existing_pet():
     local_header["Content-Type"] = "application/x-www-form-urlencoded"
 
     response = requests.post(
-        url=URN + f"/{PET_ID}/asda", headers=local_header, data=payload, timeout=15
+        url=URN + f"/{PET_ID}", headers=local_header, data=payload, timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
