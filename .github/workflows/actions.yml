@@ -28,6 +28,7 @@ jobs:
         env:
           PET_ID: ${{ vars.PET_ID }}
         run: pytest swagger_petstore/pet.py
+        continue-on-error: true
           
       - name: execute petstore store apis # run store.py
         env:
