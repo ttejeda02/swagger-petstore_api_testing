@@ -2,12 +2,13 @@
 
 import os
 import requests
+import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
 
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
-URN = "https://petstore.swagger.io/v2/user"
+BASE_URL = "https://petstore.swagger.io/v2/user"
 SP_USER_ID = os.environ["SP_USER_ID"]
 SP_USERNAME = os.environ["SP_USERNAME"]
 SP_PASSWORD = os.environ["SP_PASSWORD"]
@@ -26,17 +27,30 @@ def test_post_new_user():
         "phone": "+11234567890",
         "userStatus": 1,
     }
+
     response = requests.post(
-        url=URN, headers=HEADERS, json=payload, timeout=5
+        url=BASE_URL,
+        headers=HEADERS,
+        json=payload,
+        timeout=5
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.json()["message"] == SP_USER_ID
 
 
 def test_get_user():
     """Testing api to get the user info by username"""
 
-    response = requests.get(URN + f"/{SP_USERNAME}", headers=HEADERS, timeout=15)
+    response = requests.get(
+        BASE_URL + f"/{SP_USERNAME}",
+        headers=HEADERS,
+        timeout=5
+    )
+    response_data = response.json()
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["id"] == int(SP_USER_ID)
+    assert response_data["username"] == SP_USERNAME
+    assert response_data["password"] == SP_PASSWORD
 
 
 def test_put_user():
@@ -54,10 +68,10 @@ def test_put_user():
     }
 
     response = requests.put(
-        URN + f"/{SP_USERNAME}",
+        BASE_URL + f"/{SP_USERNAME}",
         headers=HEADERS,
         json=payload,
-        timeout=15,
+        timeout=5
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
@@ -66,9 +80,9 @@ def test_get_login():
     """Testing api to login into the system (always return 200)"""
 
     response = requests.get(
-        URN + f"/login?username={SP_USERNAME}02&password={SP_PASSWORD[::-1]}",
+        BASE_URL + f"/login?username={SP_USERNAME}02&password={SP_PASSWORD[::-1]}",
         headers=HEADERS,
-        timeout=15,
+        timeout=5,
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
@@ -76,19 +90,32 @@ def test_get_login():
 def test_get_logout():
     """Testing api to logout to the system (always return 200)"""
 
-    response = requests.get(URN + "/logout", headers=HEADERS, timeout=15)
+    response = requests.get(
+        BASE_URL + "/logout",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_delete_user():
     """Testing api to delete a user by username"""
 
-    response = requests.delete(URN + f"/{SP_USERNAME}02", headers=HEADERS, timeout=15)
+    response = requests.delete(
+        BASE_URL + f"/{SP_USERNAME}02",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.json()["message"] == f"{SP_USERNAME}02"
 
 
 def test_delete_user_confirmation():
     """Testing api to get the user by username if 404 is OK"""
 
-    response = requests.get(URN + f"/{SP_USERNAME}02", headers=HEADERS, timeout=15)
+    response = requests.get(
+        BASE_URL + f"/{SP_USERNAME}02",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 404, "Error: " + str(response.status_code)
