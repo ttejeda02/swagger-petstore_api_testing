@@ -76,6 +76,21 @@ def test_put_user():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+def test_get_user_confirmation():
+    """Testing api to get the user info by username"""
+
+    response = requests.get(
+        BASE_URL + f"/{SP_USERNAME}02",
+        headers=HEADERS,
+        timeout=5
+    )
+    response_data = response.json()
+    assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["id"] == int(SP_USER_ID)
+    assert response_data["username"] == f"{SP_USERNAME}02"
+    assert response_data["password"] == SP_PASSWORD[::-1]
+
+
 def test_get_login():
     """Testing api to login into the system (always return 200)"""
 
