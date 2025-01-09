@@ -1,8 +1,10 @@
 """This module was created to test petstore-swagger store API"""
 
-import json
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
 URN = "https://petstore.swagger.io/v2/store"
@@ -30,7 +32,7 @@ def test_post_order():
     }
 
     response = requests.post(
-        URN + "/order", headers=HEADERS, data=json.dumps(payload), timeout=15
+        URN + "/order", headers=HEADERS, json=payload, timeout=15
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
