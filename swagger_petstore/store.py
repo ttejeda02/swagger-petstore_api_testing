@@ -15,7 +15,11 @@ PET_ID = os.environ["PET_ID"]
 def test_get_inventory():
     """Testing api to get the inventory by status"""
 
-    response = requests.get(URN + "/inventory", headers=HEADERS, timeout=5)
+    response = requests.get(
+        URN + "/inventory",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
