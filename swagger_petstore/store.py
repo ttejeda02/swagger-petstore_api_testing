@@ -15,7 +15,7 @@ PET_ID = os.environ["PET_ID"]
 def test_get_inventory():
     """Testing api to get the inventory by status"""
 
-    response = requests.get(URN + "/inventory", headers=HEADERS, timeout=15)
+    response = requests.get(URN + "/inventory", headers=HEADERS, timeout=5)
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
@@ -32,7 +32,10 @@ def test_post_order():
     }
 
     response = requests.post(
-        URN + "/order", headers=HEADERS, json=payload, timeout=15
+        URN + "/order",
+        headers=HEADERS,
+        json=payload,
+        timeout=5
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
@@ -40,19 +43,31 @@ def test_post_order():
 def test_get_order():
     """Testing api to get the purchase data by id"""
 
-    response = requests.get(URN + f"/order/{ORDER_ID}", headers=HEADERS, timeout=15)
+    response = requests.get(
+        URN + f"/order/{ORDER_ID}",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_api_delete_order():
     """Testing api to delete the purchase by id"""
 
-    response = requests.delete(URN + f"/order/{ORDER_ID}", headers=HEADERS, timeout=15)
+    response = requests.delete(
+        URN + f"/order/{ORDER_ID}",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_delete_order_confirmation():
     """Testing api to get the purchase by id if 404 is OK"""
 
-    response = requests.get(URN + f"/order/{ORDER_ID}", headers=HEADERS, timeout=15)
+    response = requests.get(
+        URN + f"/order/{ORDER_ID}",
+        headers=HEADERS,
+        timeout=5
+    )
     assert response.status_code == 404, "Error: " + str(response.status_code)
