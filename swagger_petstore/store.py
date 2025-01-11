@@ -52,7 +52,10 @@ def test_get_order():
         headers=HEADERS,
         timeout=5
     )
+    response_data = response.json()
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["petId"] == int(PET_ID)
+    assert response_data["id"] == int(ORDER_ID)
 
 
 def test_api_delete_order():
@@ -64,6 +67,7 @@ def test_api_delete_order():
         timeout=5
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.json()["message"] == ORDER_ID
 
 
 def test_delete_order_confirmation():
