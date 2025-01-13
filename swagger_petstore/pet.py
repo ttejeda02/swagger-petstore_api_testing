@@ -2,6 +2,9 @@
 
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
 URN = "https://petstore.swagger.io/v2/pet"
