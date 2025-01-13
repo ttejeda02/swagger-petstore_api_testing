@@ -1,6 +1,5 @@
 """This module was created to test petstore-swagger pet API"""
 
-import json
 import os
 import requests
 
@@ -22,7 +21,7 @@ def test_post_new_pet():
     }
 
     response = requests.post(
-        url=URN, headers=HEADERS, data=json.dumps(payload), timeout=15
+        url=URN, headers=HEADERS, json=payload, timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
@@ -41,7 +40,7 @@ def test_put_existing_pet():
     }
 
     response = requests.put(
-        url=URN, headers=HEADERS, data=json.dumps(payload), timeout=15
+        url=URN, headers=HEADERS, json=payload, timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
