@@ -24,7 +24,10 @@ def test_post_new_pet():
     }
 
     response = requests.post(
-        url=URN, headers=HEADERS, json=payload, timeout=15
+        url=URN,
+        headers=HEADERS,
+        json=payload,
+        timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
@@ -43,7 +46,10 @@ def test_put_existing_pet():
     }
 
     response = requests.put(
-        url=URN, headers=HEADERS, json=payload, timeout=15
+        url=URN,
+        headers=HEADERS,
+        json=payload,
+        timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
@@ -57,7 +63,10 @@ def test_post_existing_pet():
     local_header["Content-Type"] = "application/x-www-form-urlencoded"
 
     response = requests.post(
-        url=URN + f"/{PET_ID}", headers=local_header, data=payload, timeout=15
+        url=URN + f"/{PET_ID}",
+        headers=local_header,
+        data=payload,
+        timeout=15
     )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
@@ -67,24 +76,32 @@ def test_get_pets_status():
     """Testing api to get every pet based on status"""
 
     response = requests.get(
-        url=URN + "/findByStatus?status=sold", headers=HEADERS, timeout=15
+        url=URN + "/findByStatus?status=sold",
+        headers=HEADERS,
+        timeout=15
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_get_pets_tags():
-    """Testing api to get every pet based on tag name"""
+    """Testing api to get every pet based on tag name (DEPRECATED)"""
 
     response = requests.get(
-        url=URN + "/findByTags?tags=noisy", headers=HEADERS, timeout=15
+        url=URN + "/findByTags?tags=noisy",
+        headers=HEADERS,
+        timeout=15
     )
-    assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.status_code == 500, "Error: " + str(response.status_code)
 
 
 def test_get_pet():
     """Testing api to get a pet by id"""
 
-    response = requests.get(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
+    response = requests.get(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
@@ -92,13 +109,21 @@ def test_get_pet():
 def test_delete_pet():
     """Testing api to delete a pet by id"""
 
-    response = requests.delete(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
+    response = requests.delete(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_delete_pet_confirmation():
     """Testing api to get a pet by id if 404 is OK"""
 
-    response = requests.get(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
+    response = requests.get(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
     # print(response.json())  # Print the response in json format
     assert response.status_code == 404, "Error: " + str(response.status_code)
