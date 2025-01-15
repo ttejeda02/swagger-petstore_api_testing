@@ -29,8 +29,11 @@ def test_post_new_pet():
         json=payload,
         timeout=15
     )
+    response_data = response.json()
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["name"] == "Koala"
+    assert response_data["category"]["name"] == "siamese cat"
 
 
 def test_put_existing_pet():
@@ -51,8 +54,11 @@ def test_put_existing_pet():
         json=payload,
         timeout=15
     )
+    response_data = response.json()
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["name"] == "Mascarita"
+    assert response_data["category"]["name"] == "tuxedo cat"
 
 
 def test_post_existing_pet():
@@ -80,7 +86,10 @@ def test_get_pets_status():
         headers=HEADERS,
         timeout=15
     )
+    pet_data = next(pet for pet in response.json() if pet["id"] == int(PET_ID))
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert pet_data["name"] == "Guantes"
+    assert pet_data["category"]["name"] == "tuxedo cat"
 
 
 def test_get_pets_tags():
