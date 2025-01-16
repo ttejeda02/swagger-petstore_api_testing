@@ -2,9 +2,15 @@ name: run daily test
 
 on:
   schedule:
-    - cron: '0 7 * * *' # At 07:00 everyday
-  push:
-    branches: [ main ]
+    - cron: '0 7 * * 1' # At 07:00 on Mondays
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+    branches:
+      - main
 
 jobs:
   build:
