@@ -87,9 +87,10 @@ def test_get_pets_status():
         timeout=15
     )
     pet_data = next(pet for pet in response.json() if pet["id"] == int(PET_ID))
+    # print(pet_data)
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert pet_data["name"] == "Guantes"
-    assert pet_data["category"]["name"] == "tuxedo cat"
+    assert pet_data["status"] == "sold"
 
 
 def test_get_pets_tags():
@@ -100,7 +101,8 @@ def test_get_pets_tags():
         headers=HEADERS,
         timeout=15
     )
-    assert response.status_code == 500, "Error: " + str(response.status_code)
+    # print(response.json())
+    assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
 def test_get_pet():
@@ -111,8 +113,12 @@ def test_get_pet():
         headers=HEADERS,
         timeout=15
     )
+    response_data = response.json()
     # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["category"]["name"] == "tuxedo cat"
+    assert response_data["name"] == "Guantes"
+    assert response_data["tags"]["name"] == "mute"
 
 
 def test_delete_pet():
@@ -123,7 +129,9 @@ def test_delete_pet():
         headers=HEADERS,
         timeout=15
     )
+    # print(response.json())
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.json()["message"] == PET_ID
 
 
 def test_delete_pet_confirmation():
