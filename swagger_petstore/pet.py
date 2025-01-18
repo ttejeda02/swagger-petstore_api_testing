@@ -30,7 +30,6 @@ def test_post_new_pet():
         timeout=15
     )
     response_data = response.json()
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert response_data["name"] == "Koala"
     assert response_data["category"]["name"] == "siamese cat"
@@ -55,7 +54,6 @@ def test_put_existing_pet():
         timeout=15
     )
     response_data = response.json()
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert response_data["name"] == "Mascarita"
     assert response_data["category"]["name"] == "tuxedo cat"
@@ -74,7 +72,6 @@ def test_post_existing_pet():
         data=payload,
         timeout=15
     )
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
@@ -87,7 +84,6 @@ def test_get_pets_status():
         timeout=15
     )
     pet_data = next(pet for pet in response.json() if pet["id"] == int(PET_ID))
-    # print(pet_data)
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert pet_data["name"] == "Guantes"
     assert pet_data["status"] == "sold"
@@ -101,7 +97,6 @@ def test_get_pets_tags():
         headers=HEADERS,
         timeout=15
     )
-    # print(response.json())
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
@@ -114,11 +109,10 @@ def test_get_pet():
         timeout=15
     )
     response_data = response.json()
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert response_data["category"]["name"] == "tuxedo cat"
     assert response_data["name"] == "Guantes"
-    assert response_data["tags"]["name"] == "mute"
+    assert response_data["tags"][0]["name"] == "mute"
 
 
 def test_delete_pet():
@@ -129,7 +123,6 @@ def test_delete_pet():
         headers=HEADERS,
         timeout=15
     )
-    # print(response.json())
     assert response.status_code == 200, "Error: " + str(response.status_code)
     assert response.json()["message"] == PET_ID
 
@@ -142,5 +135,4 @@ def test_delete_pet_confirmation():
         headers=HEADERS,
         timeout=15
     )
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 404, "Error: " + str(response.status_code)
