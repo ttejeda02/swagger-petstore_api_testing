@@ -1,8 +1,10 @@
 """This module was created to test petstore-swagger pet API"""
 
-import json
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
 URN = "https://petstore.swagger.io/v2/pet"
@@ -22,10 +24,15 @@ def test_post_new_pet():
     }
 
     response = requests.post(
-        url=URN, headers=HEADERS, data=json.dumps(payload), timeout=15
+        url=URN,
+        headers=HEADERS,
+        json=payload,
+        timeout=15
     )
-    # print(response.json())  # Print the response in json format
+    response_data = response.json()
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["name"] == "Koala"
+    assert response_data["category"]["name"] == "siamese cat"
 
 
 def test_put_existing_pet():
@@ -41,10 +48,15 @@ def test_put_existing_pet():
     }
 
     response = requests.put(
-        url=URN, headers=HEADERS, data=json.dumps(payload), timeout=15
+        url=URN,
+        headers=HEADERS,
+        json=payload,
+        timeout=15
     )
-    # print(response.json())  # Print the response in json format
+    response_data = response.json()
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["name"] == "Mascarita"
+    assert response_data["category"]["name"] == "tuxedo cat"
 
 
 def test_post_existing_pet():
@@ -55,9 +67,11 @@ def test_post_existing_pet():
     local_header["Content-Type"] = "application/x-www-form-urlencoded"
 
     response = requests.post(
-        url=URN + f"/{PET_ID}", headers=local_header, data=payload, timeout=15
+        url=URN + f"/{PET_ID}",
+        headers=local_header,
+        data=payload,
+        timeout=15
     )
-    # print(response.json())  # Print the response in json format
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
@@ -65,16 +79,23 @@ def test_get_pets_status():
     """Testing api to get every pet based on status"""
 
     response = requests.get(
-        url=URN + "/findByStatus?status=sold", headers=HEADERS, timeout=15
+        url=URN + "/findByStatus?status=sold",
+        headers=HEADERS,
+        timeout=15
     )
+    pet_data = next(pet for pet in response.json() if pet["id"] == int(PET_ID))
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert pet_data["name"] == "Guantes"
+    assert pet_data["status"] == "sold"
 
 
 def test_get_pets_tags():
-    """Testing api to get every pet based on tag name"""
+    """Testing api to get every pet based on tag name (DEPRECATED)"""
 
     response = requests.get(
-        url=URN + "/findByTags?tags=noisy", headers=HEADERS, timeout=15
+        url=URN + "/findByTags?tags=noisy",
+        headers=HEADERS,
+        timeout=15
     )
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
@@ -82,21 +103,36 @@ def test_get_pets_tags():
 def test_get_pet():
     """Testing api to get a pet by id"""
 
-    response = requests.get(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
-    # print(response.json())  # Print the response in json format
+    response = requests.get(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
+    response_data = response.json()
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response_data["category"]["name"] == "tuxedo cat"
+    assert response_data["name"] == "Guantes"
+    assert response_data["tags"][0]["name"] == "mute"
 
 
 def test_delete_pet():
     """Testing api to delete a pet by id"""
 
-    response = requests.delete(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
+    response = requests.delete(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
     assert response.status_code == 200, "Error: " + str(response.status_code)
+    assert response.json()["message"] == PET_ID
 
 
 def test_delete_pet_confirmation():
     """Testing api to get a pet by id if 404 is OK"""
 
-    response = requests.get(url=URN + f"/{PET_ID}", headers=HEADERS, timeout=15)
-    # print(response.json())  # Print the response in json format
+    response = requests.get(
+        url=URN + f"/{PET_ID}",
+        headers=HEADERS,
+        timeout=15
+    )
     assert response.status_code == 404, "Error: " + str(response.status_code)
