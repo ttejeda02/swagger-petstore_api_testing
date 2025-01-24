@@ -1,4 +1,12 @@
 # Swagger Petstore API Testing
+## Features
+- **Automated API testing**: allows to verify basic API operations like GET, POST, PUT and DELETE.
+- **HTTP status code validation**: ensures that the API responses return the correct HTTP status codes (e.g., `200 OK`).
+- **JSON response data validation**: verifies that the response data is correct at a basic level.
+- **Easy to use**: configurable tests that require minimal setup in a virtual environment.
+- **Error code verification**: specifically checks for error codes like `404` to ensure that deletion work as expected.
+- **Individual Test Execution**: Tests can be run individually or in groups, allowing for flexible and targeted testing of specific API endpoints.
+
 ## Requirements
 - Python 3
 - Pip 24
@@ -43,7 +51,7 @@ ORDER_ID=order_id_value
 PET_ID=pet_id_value
 ```
 
-### Usage
+## Usage
 To run all test use:
 ```bash
 pytest swagger_petstore/
@@ -59,15 +67,15 @@ pytest swagger_petstore/test_store.py
 pytest swagger_petstore/test_user.py
 ```
 #### Pytest options
-Use ___-v___ to show detailed information for each test, including the test name and whether it passed or failed.
+Use `-v` to show detailed information for each test, including the test name and whether it passed or failed.
 ```bash
 pytest -v swagger_petstore/test_pet.py
 ```
-Use ___-q___ to show a minimal summary at the end of the test run (pass/fail counts).
+Use `-q` to show a minimal summary at the end of the test run (pass/fail counts).
 ```bash
 pytest -q swagger_petstore/test_user.py
 ```
-The ___-r___ flag displays a summary of the results with additional information about the test execution. You can specify different formats:
+The `-r` flag displays a summary of the results with additional information about the test execution. You can specify different formats:
 - short: Show a brief summary.
 - f: Show only failed tests.
 - p: Show only passed tests.
@@ -77,7 +85,7 @@ The ___-r___ flag displays a summary of the results with additional information 
 pytest -r p swagger_petstore/test_store.py
 ```
 
-### Deactivate the virtual environment
+## Deactivate the virtual environment
 To deactivate the virtual environment, use the following command:
 ```bash
 deactivate
