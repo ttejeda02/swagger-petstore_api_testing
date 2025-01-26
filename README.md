@@ -1,4 +1,6 @@
 # Swagger Petstore API Testing
+This project provides automated testing for the Swagger Petstore API. It allows you to verify basic API operations (GET, POST, PUT, DELETE) and ensures that responses return the correct HTTP status codes and valid JSON data. The tests are configurable and easy to run in a virtual environment, supporting both individual and grouped test executions. Ideal for quickly validating API endpoints and error handling.
+
 ## Features
 - **Automated API testing**: allows to verify basic API operations like GET, POST, PUT and DELETE.
 - **HTTP status code validation**: ensures that the API responses return the correct HTTP status codes (e.g., `200 OK`).
