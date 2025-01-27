@@ -68,7 +68,7 @@ pytest swagger_petstore/test_store.py
 ```bash
 pytest swagger_petstore/test_user.py
 ```
-#### Pytest options
+### Pytest options
 Use `-v` to show detailed information for each test, including the test name and whether it passed or failed.
 ```bash
 pytest -v swagger_petstore/test_pet.py
