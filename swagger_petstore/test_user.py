@@ -79,7 +79,7 @@ def test_put_user():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(5))
 def test_get_user_confirmation():
     """Testing api to get the user info by username"""
 
