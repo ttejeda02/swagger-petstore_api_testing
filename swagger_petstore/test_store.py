@@ -62,7 +62,7 @@ def test_get_order():
     assert response_data["id"] == int(ORDER_ID)
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(5))
 def test_api_delete_order():
     """Testing api to delete the purchase by id"""
 

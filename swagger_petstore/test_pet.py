@@ -106,7 +106,7 @@ def test_get_pets_status():
 #     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_fixed(5))
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(7))
 def test_get_pet():
     """Testing api to get a pet by id"""
 
