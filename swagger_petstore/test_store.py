@@ -3,6 +3,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 load_dotenv()
 
@@ -12,6 +13,7 @@ ORDER_ID = os.environ["ORDER_ID"]
 PET_ID = os.environ["PET_ID"]
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_inventory():
     """Testing api to get the inventory by status"""
 
@@ -23,6 +25,7 @@ def test_get_inventory():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_post_order():
     """Testing api to order for a pet"""
 
@@ -44,6 +47,7 @@ def test_post_order():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_order():
     """Testing api to get the purchase data by id"""
 
@@ -58,6 +62,7 @@ def test_get_order():
     assert response_data["id"] == int(ORDER_ID)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_api_delete_order():
     """Testing api to delete the purchase by id"""
 
@@ -70,6 +75,7 @@ def test_api_delete_order():
     assert response.json()["message"] == ORDER_ID
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_delete_order_confirmation():
     """Testing api to get the purchase by id if 404 is OK"""
 

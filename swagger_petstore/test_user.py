@@ -3,6 +3,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 load_dotenv()
 
@@ -13,6 +14,7 @@ SP_USERNAME = os.environ["SP_USERNAME"]
 SP_PASSWORD = os.environ["SP_PASSWORD"]
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_post_new_user():
     """Testing api to create a new user"""
 
@@ -37,6 +39,7 @@ def test_post_new_user():
     assert response.json()["message"] == SP_USER_ID
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_user():
     """Testing api to get the user info by username"""
 
@@ -52,6 +55,7 @@ def test_get_user():
     assert response_data["password"] == SP_PASSWORD
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_put_user():
     """Testing api to update user info"""
 
@@ -75,6 +79,7 @@ def test_put_user():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_user_confirmation():
     """Testing api to get the user info by username"""
 
@@ -90,6 +95,7 @@ def test_get_user_confirmation():
     assert response_data["password"] == SP_PASSWORD[::-1]
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_login():
     """Testing api to login into the system (always return 200)"""
 
@@ -101,6 +107,7 @@ def test_get_login():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_logout():
     """Testing api to logout to the system (always return 200)"""
 
@@ -112,6 +119,7 @@ def test_get_logout():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_delete_user():
     """Testing api to delete a user by username"""
 
@@ -124,6 +132,7 @@ def test_delete_user():
     assert response.json()["message"] == f"{SP_USERNAME}02"
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_delete_user_confirmation():
     """Testing api to get the user by username if 404 is OK"""
 
