@@ -3,6 +3,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 load_dotenv()
 
@@ -11,6 +12,7 @@ URN = "https://petstore.swagger.io/v2/pet"
 PET_ID = os.environ["PET_ID"]
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_post_new_pet():
     """Testing api to create a new pet in petstore swagger"""
 
@@ -35,6 +37,7 @@ def test_post_new_pet():
     assert response_data["category"]["name"] == "siamese cat"
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_put_existing_pet():
     """Testing api to update a pet"""
 
@@ -59,6 +62,7 @@ def test_put_existing_pet():
     assert response_data["category"]["name"] == "tuxedo cat"
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_post_existing_pet():
     """Testing api to update the pet name and status"""
 
@@ -75,6 +79,7 @@ def test_post_existing_pet():
     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_get_pets_status():
     """Testing api to get every pet based on status"""
 
@@ -89,17 +94,19 @@ def test_get_pets_status():
     assert pet_data["status"] == "sold"
 
 
-def test_get_pets_tags():
-    """Testing api to get every pet based on tag name (DEPRECATED)"""
+### DEPRECATED ###
+# def test_get_pets_tags():
+#     """Testing api to get every pet based on tag name (DEPRECATED)"""
 
-    response = requests.get(
-        url=URN + "/findByTags?tags=noisy",
-        headers=HEADERS,
-        timeout=15
-    )
-    assert response.status_code == 200, "Error: " + str(response.status_code)
+#     response = requests.get(
+#         url=URN + "/findByTags?tags=noisy",
+#         headers=HEADERS,
+#         timeout=15
+#     )
+#     assert response.status_code == 200, "Error: " + str(response.status_code)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(10))
 def test_get_pet():
     """Testing api to get a pet by id"""
 
@@ -115,6 +122,7 @@ def test_get_pet():
     assert response_data["tags"][0]["name"] == "mute"
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_delete_pet():
     """Testing api to delete a pet by id"""
 
@@ -127,6 +135,7 @@ def test_delete_pet():
     assert response.json()["message"] == PET_ID
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
 def test_delete_pet_confirmation():
     """Testing api to get a pet by id if 404 is OK"""
 
